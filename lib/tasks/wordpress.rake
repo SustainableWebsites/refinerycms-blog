@@ -1,4 +1,5 @@
 require 'nokogiri'
+require 'wordpress'
 
 namespace :wordpress do
   desc "Reset the blog relevant tables for a clean import"
@@ -33,7 +34,7 @@ namespace :wordpress do
       p tag.text
     end
 
-    doc.xpath("//item").each do |post|
+    doc.xpath("//item[wp:post_type = 'page']").each do |post|
       title = post.xpath("title").text
       body = post.xpath("content:encoded").text
       author = post.xpath("dc:creator").text
@@ -53,6 +54,28 @@ namespace :wordpress do
       p categories
     end
   end
+
+  desc "New import (testing)"
+  task :new_import, :file_name do |task, params|
+    Rake::Task["environment"].invoke
+
+    file_name = File.absolute_path(params[:file_name])
+    unless File.file?(file_name) && File.readable?(file_name)
+      raise "Given file '#{file_name}' no file or not readable."
+    end
+
+    dump = WordPress::Dump.new(file_name)
+    p dump.authors
+    p dump.pages
+    dump.posts.each do |post|
+      p post.title
+      p post.categories
+      p post.tags
+      p post.creator
+      #p post.content
+    end
+  end
+
   
   desc "Import data from a WordPress XML dump into a clean database (reset first)"
   task :import_clean, :file_name do |task, params|
