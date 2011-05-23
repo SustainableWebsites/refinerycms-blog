@@ -9,6 +9,10 @@ module WordPress
     def ==(other)
       name == other.name
     end
+
+    def to_refinery
+      ActsAsTaggableOn::Tag.new(:name => name)
+    end
     
   end
 end
