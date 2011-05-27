@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'wordpress'
 
-describe WordPress::Dump do
+describe WordPress::Dump, :type => :model do
   let(:file_name) { File.realpath(File.join(File.dirname(__FILE__), '../../fixtures/wordpress_dump.xml')) }
   let(:dump) { WordPress::Dump.new(file_name) }
 
@@ -24,6 +24,25 @@ describe WordPress::Dump do
         dump.tags.should include(tag)
       end
     end
+
+    context "the last tag" do
+      let(:tag) { dump.tags.last }
+
+      describe "#to_refinery" do
+        before do 
+          @tag = tag.to_refinery
+        end
+
+        it "should create a ActsAsTaggableOn::Tag" do
+          ActsAsTaggableOn::Tag.should have(1).record
+        end
+
+        it "should copy the name over to the Tag object" do
+          @tag.name.should == tag.name
+        end
+      end
+    end
+
   end
 
   describe "#categories" do
@@ -37,6 +56,25 @@ describe WordPress::Dump do
         dump.categories.should include(cat)
       end
     end
+
+    context "the last category" do
+      let(:category) { dump.categories.last }
+
+      describe "#to_refinery" do
+        before do 
+          @category = category.to_refinery
+        end
+
+        it "should create a BlogCategory" do
+          BlogCategory.should have(1).record
+        end
+
+        it "should copy the name over to the BlogCategory object" do
+          @category.title.should == category.name
+        end
+      end
+    end
+
   end
 
   describe "#pages" do
@@ -56,6 +94,24 @@ describe WordPress::Dump do
 
       it { page.should == dump.pages.last }
       it { page.should_not == dump.pages.first }
+
+      describe "#to_refinery" do
+        before do
+          @count = Page.count
+          @page = page.to_refinery
+        end
+
+        it "should create a Page object" do
+          Page.should have(@count + 1).record
+        end
+
+        it "should copy the attributes from WordPress::Page" do
+          @page.title.should == page.title
+          @page.draft.should == page.draft?
+          @page.created_at.should == page.post_date
+          @page.parts.first.body.should == "<p>#{page.content}</p>"
+        end
+      end
     end
   end
 
@@ -69,6 +125,26 @@ describe WordPress::Dump do
 
       it { author.login.should == 'admin' }
       it { author.email.should == 'admin@example.com' }
+
+      describe "#to_refinery" do
+        before do 
+          @user = author.to_refinery
+        end
+
+        it "should create a User object" do
+          User.should have(1).record
+          @user.should be_a(User)
+        end
+
+        it "the @user should be persisted" do
+          @user.should be_persisted
+        end
+
+        it "should have copied the attributes from WordPress::Author" do
+          author.login.should == @user.username
+          author.email.should == @user.email
+        end
+      end
     end
   end
 
