@@ -2,8 +2,8 @@ module Refinery
   module Blog
     class Version
       @major = 1
-      @minor = 4
-      @tiny  = 0
+      @minor = 5
+      @tiny  = 2
 
       class << self
         attr_reader :major, :minor, :tiny

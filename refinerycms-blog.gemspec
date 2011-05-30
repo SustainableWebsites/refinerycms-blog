@@ -1,8 +1,8 @@
 Gem::Specification.new do |s|
   s.name              = %q{refinerycms-blog}
-  s.version           = %q{1.4.0}
+  s.version           = %q{1.5.2}
   s.description       = %q{A really straightforward open source Ruby on Rails blog engine designed for integration with RefineryCMS.}
-  s.date              = %q{2011-04-25}
+  s.date              = %q{2011-05-28}
   s.summary           = %q{Ruby on Rails blogging engine for RefineryCMS.}
   s.email             = %q{info@refinerycms.com}
   s.homepage          = %q{http://refinerycms.com/blog}
@@ -10,10 +10,11 @@ Gem::Specification.new do |s|
   s.require_paths     = %w(lib)
 
   # Runtime dependencies
-  s.add_dependency    'refinerycms-core',  '>= 0.9.9.1'
-  s.add_dependency    'filters_spam', '~> 0.2'
+  s.add_dependency    'refinerycms-core',   '~> 1.0.0'
+  s.add_dependency    'filters_spam',       '~> 0.2'
   s.add_dependency    'acts-as-taggable-on'
   s.add_dependency    'nokogiri'
+  s.add_dependency    'seo_meta',           '~> 1.1.0'
 
   # Development dependencies
   s.add_development_dependency 'factory_girl'
@@ -113,6 +114,7 @@ Gem::Specification.new do |s|
     db/migrate/1_create_blog_structure.rb
     db/migrate/2_add_user_id_to_blog_posts.rb
     db/migrate/3_acts_as_taggable_on_migration.rb
+    db/migrate/4_create_seo_meta_for_blog.rb
     db/seeds
     db/seeds/refinerycms_blog.rb
     features
@@ -164,9 +166,9 @@ Gem::Specification.new do |s|
     readme.md
     spec
     spec/models
-    spec/models/blog_categories_spec.rb
-    spec/models/blog_comments_spec.rb
-    spec/models/blog_posts_spec.rb
+    spec/models/blog_category_spec.rb
+    spec/models/blog_comment_spec.rb
+    spec/models/blog_post_spec.rb
   )
   
 end

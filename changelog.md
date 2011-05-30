@@ -1,4 +1,9 @@
-## 1.4 [UNRELEASED]
+## 1.5 [28 May 2011]
+
+* Added Gravatar support. [parndt](https://github.com/parndt)
+* Added support for Refinery CMS 1.0.0 and above. [parndt](https://github.com/parndt)
+
+## 1.4 [26 May 2011]
 
 * Spanish language fixes [scambra](https://github.com/scambra)
 * Bug fixes [scambra](https://github.com/scambra)
@@ -6,6 +11,7 @@
 * Tagged posts route / view [joemsak](https://github.com/joemsak)
 * Tag cloud in sidebar
 * Czech & slovak translations [karem](https://github.com/keram)
+* SEO fields and migration [parndt](https://github.com/parndt) [ugisozols](https://github.com/ugisozols)
 * [See full list](https://github.com/resolve/refinerycms-blog/compare/1.3...1.4)
 
 ## 1.3 [03 March 2011]

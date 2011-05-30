@@ -46,10 +46,11 @@
           </li>
         <% end %>
       </ul>
-      <h3><%= t('admin.blog.posts.form.published_at') %></h3>
+      <h3><%= t('.published_at') %></h3>
       <%= f.datetime_select :published_at %>
     </div>
     <div class='hemisquare right_side'>
+      <%= render :partial => '/seo_meta/form', :locals => {:form => f} %>
     </div>
   </div>
   <%= render :partial => "/shared/admin/form_actions",
