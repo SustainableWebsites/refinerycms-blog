@@ -9,5 +9,9 @@ module WordPress
     def ==(other)
       name == other.name
     end
+
+    def to_refinery
+      BlogCategory.find_or_create_by_title(name)
+    end
   end
 end

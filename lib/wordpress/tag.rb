@@ -11,7 +11,7 @@ module WordPress
     end
 
     def to_refinery
-      ActsAsTaggableOn::Tag.new(:name => name)
+      ActsAsTaggableOn::Tag.find_or_create_by_name(name)
     end
     
   end

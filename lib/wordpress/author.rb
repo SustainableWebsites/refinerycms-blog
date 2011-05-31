@@ -21,5 +21,15 @@ module WordPress
     def inspect
       "WordPress::Author: #{login} <#{email}>"
     end
+
+    def to_refinery
+      user = User.find_or_initialize_by_username_and_email(login, email)
+      unless user.persisted?
+        user.password = 'password'
+        user.password_confirmation = 'password'
+        user.save
+      end
+      user
+    end
   end
 end

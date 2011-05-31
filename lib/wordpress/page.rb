@@ -38,8 +38,20 @@ module WordPress
       node.xpath("wp:status").text
     end
 
+    def draft?
+      status != 'publish'
+    end
+
     def ==(other)
       post_id == other.post_id
+    end
+
+    def to_refinery
+      page = ::Page.create!(:title => title, :created_at => post_date, 
+        :draft => draft?, :parent_id => parent_id)
+
+      page.parts.create(:title => 'Body', :body => content)
+      page
     end
   end
 end
