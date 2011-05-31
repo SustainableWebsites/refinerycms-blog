@@ -26,12 +26,21 @@ module WordPress
       node.xpath('wp:comment_content').text
     end
 
-    def approved
+    def approved?
       node.xpath('wp:comment_approved').text.to_i == 1
     end
 
     def ==(other) 
       (email == other.email) && (date == other.date) && (content == other.content)
+    end
+
+    def to_refinery
+      comment = BlogComment.new :name => author, :email => email
+
+      comment.body = content
+      comment.created_at = date
+      comment.state = approved? ? 'approved' : 'rejected'
+      comment
     end
   end
 end

@@ -96,6 +96,10 @@ describe WordPress::Dump, :type => :model do
 
       describe "#to_refinery" do
         before do
+          # "About me" has a parent page with id 8 in the XML  dump, 
+          # would otherwise fails creation
+          Page.create! :id => 8, :title => 'About'
+
           @count = Page.count
           @page = page.to_refinery
         end
@@ -194,10 +198,58 @@ describe WordPress::Dump, :type => :model do
           it { comment.url.should == 'http://www.example.com/' }
           it { comment.date.should == DateTime.new(2011, 5, 21, 12, 26, 30) }
           it { comment.content.should include('Another one!') }
-          it { comment.approved.should == true }
+          it { comment.should be_approved }
 
           it { comment.should == post.comments.last }
+
+          describe "#to_refinery" do
+            before do 
+              @comment = comment.to_refinery
+            end
+
+            it "should not save the comment, only initialize it" do
+              BlogComment.should have(0).records
+              @comment.should be_new_record
+            end
+
+            it "should copy the attributes from WordPress::Comment" do
+              @comment.name.should == comment.author
+              @comment.email.should == comment.email
+              @comment.body.should == comment.content
+              @comment.state.should == 'approved'
+              @comment.created_at.should == comment.date
+            end
+          end
         end
+      end
+
+      describe "#to_refinery" do
+        before do
+          User.create! :username => 'admin', :email => 'admin@example.com',
+            :password => 'password', :password_confirmation => 'password'
+
+          @post = post.to_refinery
+        end
+
+        it { BlogPost.should have(1).record } 
+
+        it "should copy the attributes from WordPress::Page" do
+          @post.title.should == post.title
+          @post.body.should == post.content
+          @post.draft.should == post.draft?
+          @post.published_at.should == post.post_date
+          @post.created_at.should == post.post_date
+          @post.author.username.should == post.creator
+        end
+
+        it "should assign a category for each WordPress::Category" do
+          @post.categories.should have(post.categories.count).records
+        end
+
+        it "should assign a comment for each WordPress::Comment" do
+          @post.comments.should have(post.comments.count).records
+        end
+
       end
     end
   end

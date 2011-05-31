@@ -47,18 +47,10 @@ module WordPress
     end
 
     def to_refinery
-      page = ::Page.create(
-        :title => title,
-        :created_at => post_date,
-        :draft => draft?,
-        #:parent_id => parent_id
-      )
+      page = ::Page.create!(:title => title, :created_at => post_date, 
+        :draft => draft?, :parent_id => parent_id)
 
-      page.parts.create(
-        :title => 'Body',
-        :body => content
-      )
-
+      page.parts.create(:title => 'Body', :body => content)
       page
     end
   end
