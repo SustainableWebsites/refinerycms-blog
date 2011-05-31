@@ -42,7 +42,6 @@ describe WordPress::Dump, :type => :model do
         end
       end
     end
-
   end
 
   describe "#categories" do
@@ -162,6 +161,7 @@ describe WordPress::Dump, :type => :model do
       it { post.post_date.should == DateTime.new(2011, 5, 21, 12, 24, 45) }
       it { post.post_id.should == 6 }
       it { post.parent_id.should == 0 }
+      it { post.status.should == 'publish' }
 
       it { post.should == dump.posts.last }
       it { post.should_not == dump.posts.first }
@@ -180,7 +180,25 @@ describe WordPress::Dump, :type => :model do
       end
 
       it { post.tag_list.should == 'css,html,php' }
+
+      describe "#comments" do
+        it "should return all attached comments" do
+          post.comments.should have(2).comments
+        end
+
+        context "the last comment" do
+          let(:comment) { post.comments.last }
+          
+          it { comment.author.should == 'admin' }
+          it { comment.email.should == 'admin@example.com' }
+          it { comment.url.should == 'http://www.example.com/' }
+          it { comment.date.should == DateTime.new(2011, 5, 21, 12, 26, 30) }
+          it { comment.content.should include('Another one!') }
+          it { comment.approved.should == true }
+
+          it { comment.should == post.comments.last }
+        end
+      end
     end
   end
-
 end

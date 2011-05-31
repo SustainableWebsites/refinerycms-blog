@@ -15,5 +15,11 @@ module WordPress
         WordPress::Category.new(cat.text)
       end
     end
+
+    def comments
+      node.xpath("wp:comment").collect do |comment_node|
+        WordPress::Comment.new(comment_node)
+      end
+    end
   end
 end
