@@ -1,4 +1,4 @@
-require 'spec_helper'
+require_relative 'spec_helper'
 Dir[File.expand_path('../../../features/support/factories/*.rb', __FILE__)].each{|factory| require factory}
 
 describe BlogPost do
@@ -183,5 +183,21 @@ describe BlogPost do
         BlogPost.comments_allowed?.should be_false
       end
     end
+  end
+
+  describe "may have a bookmark link" do
+    Factory.build(:post,
+                  :title => "a link",
+                  :body => "link text",
+                  :is_link => true,
+                  :link_url => "http://example.com").should be_valid
+  end
+
+  describe "must have a link url if it is a link" do
+    Factory.build(:post,
+                  :title => "a link",
+                  :body => "link text",
+                  :is_link => true,
+                  :link_url => nil).should_not be_valid
   end
 end
