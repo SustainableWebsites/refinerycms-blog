@@ -207,7 +207,7 @@ describe BlogPost do
   
   describe "custom teasers" do
     it "should allow a custom teaser" do
-      Factory.build(:blog_post, :custom_teaser => 'This is some custom content').should be_valid
+      Factory.build(:post, :custom_teaser => 'This is some custom content').should be_valid
     end
   end
 end
