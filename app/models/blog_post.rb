@@ -20,7 +20,8 @@ class BlogPost < ActiveRecord::Base
 
   validates :title, :presence => true, :uniqueness => true
   validates :body,  :presence => true
-
+  validates :link_url, :presence => { :if => :is_link, :message => "must have a link_url if is_link is true" }
+  validates :is_link, :presence => { :if => :link_url, :message => "can't have a link_url if is_link is false"}
   has_friendly_id :friendly_id_source, :use_slug => true,
                   :default_locale => (::Refinery::I18n.default_frontend_locale rescue :en),
                   :approximate_ascii => RefinerySetting.find_or_set(:approximate_ascii, false, :scoping => 'blog'),
