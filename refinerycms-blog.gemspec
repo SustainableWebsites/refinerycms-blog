@@ -2,7 +2,7 @@ Gem::Specification.new do |s|
   s.name              = %q{refinerycms-blog}
   s.version           = %q{1.6.2}
   s.description       = %q{A really straightforward open source Ruby on Rails blog engine designed for integration with RefineryCMS.}
-  s.date              = %q{2011-06-27}
+  s.date              = %q{2011-06-29}
   s.summary           = %q{Ruby on Rails blogging engine for RefineryCMS.}
   s.email             = %q{info@refinerycms.com}
   s.homepage          = %q{http://refinerycms.com/blog}
@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.require_paths     = %w(lib)
 
   # Runtime dependencies
-  s.add_dependency    'refinerycms-core',   '~> 1.0.0'
+  s.add_dependency    'refinerycms-core',   '~> 1.0.3'
   s.add_dependency    'filters_spam',       '~> 0.2'
   s.add_dependency    'acts-as-taggable-on'
   s.add_dependency    'nokogiri'
@@ -192,6 +192,7 @@ Gem::Specification.new do |s|
     public/stylesheets/ui-lightness/images/ui-icons_ffffff_256x240.png
     public/stylesheets/ui-lightness/jquery-ui-1.8.13.custom.css
     readme.md
+    refinerycms-blog.gemspec
     spec
     spec/models
     spec/models/blog_category_spec.rb
