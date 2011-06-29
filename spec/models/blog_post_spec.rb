@@ -188,20 +188,20 @@ describe BlogPost do
 
   describe "bookmark links" do
     it "may have a bookmark link" do
-      Factory.build(:post,
+      Factory.build(:blog_post,
                     :title => "a link",
                     :body => "link text",
                     :is_link => true,
                     :link_url => "http://example.com").should be_valid
     end
     it "must have a link url if it is a link" do
-      Factory.build(:post,
+      Factory.build(:blog_post,
                     :title => "a link",
                     :body => "link text",
                     :is_link => true).should be_invalid
     end
     it "must not have a link url if it is not a link" do
-      Factory.build(:post,
+      Factory.build(:blog_post,
                     :title => "not a link",
                     :body => "not a link body text",
                     :is_link => nil,
@@ -211,7 +211,7 @@ describe BlogPost do
   
   describe "custom teasers" do
     it "should allow a custom teaser" do
-      Factory.build(:post, :custom_teaser => 'This is some custom content').should be_valid
+      Factory.create(:blog_post, :custom_teaser => 'This is some custom content').should be_valid
     end
   end
 end
