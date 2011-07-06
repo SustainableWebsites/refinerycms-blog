@@ -2,11 +2,16 @@ require 'spec_helper'
 
 describe 'admin/blog/posts/new.html.erb' do
   let (:post) do
-    stub_model(BlogPost).as_new_record
+    stub_model(BlogPost,
+               :title => "Blog",
+               :published_at => Time.now,
+               :draft => false
+               )
   end
   
   before do
-    assign(:post, post)
+    assign(:blog_post, post)
+    view.should_receive(:blog_post_teaser).and_return("Lorem ipsum")
   end
   
   it "should let users mark the blog post as a bookmark link" do
